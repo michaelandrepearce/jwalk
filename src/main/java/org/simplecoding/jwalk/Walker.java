@@ -1,32 +1,27 @@
-package org.simplecoding.oflex.components;
+package org.simplecoding.jwalk;
 
-import java.util.LinkedList;
-import java.util.List;
-import org.simplecoding.oflex.OFlexException;
+import org.simplecoding.jwalk.components.ComponentFactory;
 
 /**
  *
  * @author fred
  */
-public class XSequence
-    extends
-        XComponent {
+public class Walker {
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Static Fields
      * -------------------------------------------------------------------------------------------------------------- */
-    private static final long serialVersionUID = 1L;
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Fields
      * -------------------------------------------------------------------------------------------------------------- */
-    private List<XComponent> components;
+    private Object instance;
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Constructor
      * -------------------------------------------------------------------------------------------------------------- */
-    public XSequence() {
-        this.components = new LinkedList<XComponent>();
+    public Walker(Object instance) {
+        this.instance = instance;
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *
@@ -36,23 +31,16 @@ public class XSequence
     /* -------------------------------------------------------------------------------------------------------------- *
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
-    @Override
-    public Object evaluate(Object instance)
+    @SuppressWarnings("unchecked")
+    public <T> T evaluate(String expression, Class<T> cast)
         throws
             OFlexException {
 
-        Object result = instance;
-        for(XComponent component: this.components) {
-            result = component.evaluate(result);
-        }
-
-        return result;
-    }
-
-    public XSequence add(XComponent component) {
-        this.components.add(component);
-
-        return this;
+        return
+            (T)
+                ComponentFactory.getInstance()
+                    .createXSequence(expression)
+                        .evaluate(instance);
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *

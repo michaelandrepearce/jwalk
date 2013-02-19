@@ -1,12 +1,12 @@
-package org.simplecoding.oflex;
+package org.simplecoding.jwalk.components;
 
-import org.simplecoding.oflex.components.ComponentFactory;
+import org.simplecoding.jwalk.OFlexException;
 
 /**
  *
  * @author fred
  */
-public class Walker {
+public abstract class XComponent {
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Static Fields
@@ -15,13 +15,17 @@ public class Walker {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Fields
      * -------------------------------------------------------------------------------------------------------------- */
-    private Object instance;
+    private String id;
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Constructor
      * -------------------------------------------------------------------------------------------------------------- */
-    public Walker(Object instance) {
-        this.instance = instance;
+    public XComponent() {
+        this(null);
+    }
+
+    public XComponent(String id) {
+        this.id = id;
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *
@@ -31,17 +35,9 @@ public class Walker {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
-    @SuppressWarnings("unchecked")
-    public <T> T evaluate(String expression, Class<T> cast)
+    public abstract Object evaluate(Object instance)
         throws
-            OFlexException {
-
-        return
-            (T)
-                ComponentFactory.getInstance()
-                    .createXSequence(expression)
-                        .evaluate(instance);
-    }
+            OFlexException;
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private methods
@@ -50,5 +46,13 @@ public class Walker {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Getters & Setters
      * -------------------------------------------------------------------------------------------------------------- */
+    public String getId() {
+        return id;
+    }
 
+    public XComponent setId(String id) {
+        this.id = id;
+
+        return this;
+    }
 }

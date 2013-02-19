@@ -1,7 +1,8 @@
-package org.simplecoding.oflex.components;
+package org.simplecoding.jwalk.components;
 
 import java.lang.reflect.Field;
-import org.simplecoding.oflex.FieldAccessingException;
+import java.lang.reflect.Method;
+import org.simplecoding.jwalk.MethodAccessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,7 +10,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author fred
  */
-public class XField
+public class XMethod
     extends
         XComponent {
 
@@ -17,7 +18,7 @@ public class XField
      * Private Static Fields
      * -------------------------------------------------------------------------------------------------------------- */
     private static final Logger LOGGER =
-        LoggerFactory.getLogger(XField.class);
+        LoggerFactory.getLogger(XMethod.class);
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Fields
@@ -26,11 +27,11 @@ public class XField
     /* -------------------------------------------------------------------------------------------------------------- *
      * Constructor
      * -------------------------------------------------------------------------------------------------------------- */
-    public XField() {
+    public XMethod() {
         this(null);
     }
 
-    public XField(String id) {
+    public XMethod(String id) {
         super(id);
     }
 
@@ -44,16 +45,16 @@ public class XField
     @Override
     public Object evaluate(Object instance)
         throws
-            FieldAccessingException {
+            MethodAccessingException {
 
         try {
-            Field field = instance.getClass().getDeclaredField(this.getId());
-            field.setAccessible(true);
+            Method method = instance.getClass().getMethod(this.getId());
+            method.setAccessible(true);
 
-            return field.get(instance);
+            return method.invoke(instance);
         }
         catch (Exception e) {
-            throw new FieldAccessingException(e);
+            throw new MethodAccessingException(e);
         }
     }
 

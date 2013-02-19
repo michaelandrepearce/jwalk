@@ -1,10 +1,10 @@
-package org.simplecoding.oflex.components;
+package org.simplecoding.jwalk.components;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
-import org.simplecoding.oflex.OFlexException;
-import org.simplecoding.oflex.components.XSequence;
+import org.simplecoding.jwalk.OFlexException;
+import org.simplecoding.jwalk.components.XSequence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

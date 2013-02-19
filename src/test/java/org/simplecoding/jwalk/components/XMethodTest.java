@@ -1,12 +1,12 @@
-package org.simplecoding.oflex.components;
+package org.simplecoding.jwalk.components;
 
-import org.simplecoding.oflex.components.XField;
+import org.simplecoding.jwalk.components.XMethod;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.simplecoding.oflex.structures.SimpleStructure;
+import org.simplecoding.jwalk.structures.SimpleStructure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static org.junit.Assert.*;
@@ -15,27 +15,27 @@ import static org.junit.Assert.*;
  *
  * @author fred
  */
-public class XFieldTest {
+public class XMethodTest {
 
     private static final Logger LOGGER =
-        LoggerFactory.getLogger(XFieldTest.class);
+        LoggerFactory.getLogger(XMethodTest.class);
 
     private Integer number;
     private String  message;
 
-    private XField numberField;
-    private XField messageField;
+    private XMethod numberMethod;
+    private XMethod messageMethod;
 
-    private SimpleStructure bean;
+    private SimpleStructure simple;
 
-    public XFieldTest() {
+    public XMethodTest() {
         this.number     = 16;
         this.message    = "Ca marche";
 
-        this.numberField    = new XField("number");
-        this.messageField   = new XField("message");
+        this.numberMethod    = new XMethod("getNumber");
+        this.messageMethod   = new XMethod("getMessage");
 
-        this.bean =
+        this.simple =
             new SimpleStructure()
                 .setNumber(this.number)
                 .setMessage(this.message);
@@ -71,7 +71,7 @@ public class XFieldTest {
 
         assertEquals(
             this.number,
-            this.numberField.evaluate(this.bean));
+            this.numberMethod.evaluate(this.simple));
     }
 
     /**
@@ -88,6 +88,6 @@ public class XFieldTest {
 
         assertEquals(
             this.message,
-            this.messageField.evaluate(this.bean));
+            this.messageMethod.evaluate(this.simple));
     }
 }

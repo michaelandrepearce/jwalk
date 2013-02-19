@@ -1,49 +1,34 @@
-package org.simplecoding.oflex.components;
+package org.simplecoding.jwalk.structures;
 
 /**
  *
  * @author fred
  */
-public class ComponentFactory {
+public class ComplexStructure {
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Static Fields
      * -------------------------------------------------------------------------------------------------------------- */
-    private static final class SingletonHolder {
-        private static final ComponentFactory INSTANCE = new ComponentFactory();
-    }
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Fields
      * -------------------------------------------------------------------------------------------------------------- */
+    private SimpleStructure simple;
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Constructor
      * -------------------------------------------------------------------------------------------------------------- */
-    private ComponentFactory() {}
+    public ComplexStructure() {
+        this.simple = null;
+    }
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Lifecycle methods
      * -------------------------------------------------------------------------------------------------------------- */
-    public static ComponentFactory getInstance() {
-        return SingletonHolder.INSTANCE;
-    }
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
-    public XSequence createXSequence(String expression) {
-        return
-            ExpressionParser.getInstance().parse(expression);
-    }
-
-    public XField createXField(String id) {
-        return new XField(id);
-    }
-
-    public XMethod createXMethod(String id) {
-        return new XMethod(id);
-    }
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private methods
@@ -52,5 +37,13 @@ public class ComponentFactory {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Getters & Setters
      * -------------------------------------------------------------------------------------------------------------- */
+    public SimpleStructure getSimple() {
+        return simple;
+    }
 
+    public ComplexStructure setSimple(SimpleStructure simple) {
+        this.simple = simple;
+
+        return this;
+    }
 }

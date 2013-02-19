@@ -1,38 +1,29 @@
-package org.simplecoding.oflex.components;
+package org.simplecoding.jwalk.structures;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import org.simplecoding.oflex.MethodAccessingException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author fred
  */
-public class XMethod
-    extends
-        XComponent {
+public class SimpleStructure {
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Static Fields
      * -------------------------------------------------------------------------------------------------------------- */
-    private static final Logger LOGGER =
-        LoggerFactory.getLogger(XMethod.class);
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Fields
      * -------------------------------------------------------------------------------------------------------------- */
+    private Integer number;
+    private String  message;
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Constructor
      * -------------------------------------------------------------------------------------------------------------- */
-    public XMethod() {
-        this(null);
-    }
-
-    public XMethod(String id) {
-        super(id);
+    public SimpleStructure() {
+        this.number     = null;
+        this.message    = null;
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *
@@ -43,19 +34,44 @@ public class XMethod
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
     @Override
-    public Object evaluate(Object instance)
-        throws
-            MethodAccessingException {
+    public String toString() {
+        StringBuilder result = new StringBuilder();
 
+        for(Field field : this.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            result
+                .append(field.getName())
+                .append("[");
+
+            try {
+                result.append(field.get(this));
+            }
+            catch (Exception e) {
+                result.append("ERROR");
+            }
+
+            result.append("], ");
+        }
+
+        return
+            result
+                .append("@")
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object element) {
         try {
-            Method method = instance.getClass().getMethod(this.getId());
-            method.setAccessible(true);
-
-            return method.invoke(instance);
+            return (this.hashCode() == element.hashCode());
         }
         catch (Exception e) {
-            throw new MethodAccessingException(e);
+            return false;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return this.toString().hashCode();
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *
@@ -65,5 +81,23 @@ public class XMethod
     /* -------------------------------------------------------------------------------------------------------------- *
      * Getters & Setters
      * -------------------------------------------------------------------------------------------------------------- */
+    public Integer getNumber() {
+        return number;
+    }
 
+    public SimpleStructure setNumber(Integer number) {
+        this.number = number;
+
+        return this;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public SimpleStructure setMessage(String message) {
+        this.message = message;
+
+        return this;
+    }
 }

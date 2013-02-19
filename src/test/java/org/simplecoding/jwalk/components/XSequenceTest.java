@@ -1,12 +1,15 @@
-package org.simplecoding.oflex.components;
+package org.simplecoding.jwalk.components;
 
+import org.simplecoding.jwalk.components.XField;
+import org.simplecoding.jwalk.components.XMethod;
+import org.simplecoding.jwalk.components.XSequence;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.simplecoding.oflex.structures.ComplexStructure;
-import org.simplecoding.oflex.structures.SimpleStructure;
+import org.simplecoding.jwalk.structures.ComplexStructure;
+import org.simplecoding.jwalk.structures.SimpleStructure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static org.junit.Assert.*;

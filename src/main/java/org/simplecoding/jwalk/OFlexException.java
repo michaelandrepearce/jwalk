@@ -1,4 +1,4 @@
-package org.simplecoding.oflex;
+package org.simplecoding.jwalk;
 
 /**
  *

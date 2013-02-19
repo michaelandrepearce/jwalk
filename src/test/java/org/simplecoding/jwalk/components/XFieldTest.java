@@ -1,12 +1,12 @@
-package org.simplecoding.oflex.components;
+package org.simplecoding.jwalk.components;
 
-import org.simplecoding.oflex.components.XMethod;
+import org.simplecoding.jwalk.components.XField;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.simplecoding.oflex.structures.SimpleStructure;
+import org.simplecoding.jwalk.structures.SimpleStructure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static org.junit.Assert.*;
@@ -15,27 +15,27 @@ import static org.junit.Assert.*;
  *
  * @author fred
  */
-public class XMethodTest {
+public class XFieldTest {
 
     private static final Logger LOGGER =
-        LoggerFactory.getLogger(XMethodTest.class);
+        LoggerFactory.getLogger(XFieldTest.class);
 
     private Integer number;
     private String  message;
 
-    private XMethod numberMethod;
-    private XMethod messageMethod;
+    private XField numberField;
+    private XField messageField;
 
-    private SimpleStructure simple;
+    private SimpleStructure bean;
 
-    public XMethodTest() {
+    public XFieldTest() {
         this.number     = 16;
         this.message    = "Ca marche";
 
-        this.numberMethod    = new XMethod("getNumber");
-        this.messageMethod   = new XMethod("getMessage");
+        this.numberField    = new XField("number");
+        this.messageField   = new XField("message");
 
-        this.simple =
+        this.bean =
             new SimpleStructure()
                 .setNumber(this.number)
                 .setMessage(this.message);
@@ -71,7 +71,7 @@ public class XMethodTest {
 
         assertEquals(
             this.number,
-            this.numberMethod.evaluate(this.simple));
+            this.numberField.evaluate(this.bean));
     }
 
     /**
@@ -88,6 +88,6 @@ public class XMethodTest {
 
         assertEquals(
             this.message,
-            this.messageMethod.evaluate(this.simple));
+            this.messageField.evaluate(this.bean));
     }
 }

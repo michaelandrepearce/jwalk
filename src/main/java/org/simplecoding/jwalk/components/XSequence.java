@@ -1,29 +1,32 @@
-package org.simplecoding.oflex.structures;
+package org.simplecoding.jwalk.components;
 
-import java.lang.reflect.Field;
+import java.util.LinkedList;
+import java.util.List;
+import org.simplecoding.jwalk.OFlexException;
 
 /**
  *
  * @author fred
  */
-public class SimpleStructure {
+public class XSequence
+    extends
+        XComponent {
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Static Fields
      * -------------------------------------------------------------------------------------------------------------- */
+    private static final long serialVersionUID = 1L;
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Fields
      * -------------------------------------------------------------------------------------------------------------- */
-    private Integer number;
-    private String  message;
+    private List<XComponent> components;
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Constructor
      * -------------------------------------------------------------------------------------------------------------- */
-    public SimpleStructure() {
-        this.number     = null;
-        this.message    = null;
+    public XSequence() {
+        this.components = new LinkedList<XComponent>();
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *
@@ -34,44 +37,22 @@ public class SimpleStructure {
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
     @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
+    public Object evaluate(Object instance)
+        throws
+            OFlexException {
 
-        for(Field field : this.getClass().getDeclaredFields()) {
-            field.setAccessible(true);
-            result
-                .append(field.getName())
-                .append("[");
-
-            try {
-                result.append(field.get(this));
-            }
-            catch (Exception e) {
-                result.append("ERROR");
-            }
-
-            result.append("], ");
+        Object result = instance;
+        for(XComponent component: this.components) {
+            result = component.evaluate(result);
         }
 
-        return
-            result
-                .append("@")
-                .toString();
+        return result;
     }
 
-    @Override
-    public boolean equals(Object element) {
-        try {
-            return (this.hashCode() == element.hashCode());
-        }
-        catch (Exception e) {
-            return false;
-        }
-    }
+    public XSequence add(XComponent component) {
+        this.components.add(component);
 
-    @Override
-    public int hashCode() {
-        return this.toString().hashCode();
+        return this;
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *
@@ -81,23 +62,5 @@ public class SimpleStructure {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Getters & Setters
      * -------------------------------------------------------------------------------------------------------------- */
-    public Integer getNumber() {
-        return number;
-    }
 
-    public SimpleStructure setNumber(Integer number) {
-        this.number = number;
-
-        return this;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public SimpleStructure setMessage(String message) {
-        this.message = message;
-
-        return this;
-    }
 }
