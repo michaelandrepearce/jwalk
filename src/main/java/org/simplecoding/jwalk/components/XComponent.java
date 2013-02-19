@@ -1,6 +1,6 @@
 package org.simplecoding.jwalk.components;
 
-import org.simplecoding.jwalk.OFlexException;
+import org.simplecoding.jwalk.JWalkException;
 
 /**
  *
@@ -37,7 +37,7 @@ public abstract class XComponent {
      * -------------------------------------------------------------------------------------------------------------- */
     public abstract Object evaluate(Object instance)
         throws
-            OFlexException;
+            JWalkException;
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private methods

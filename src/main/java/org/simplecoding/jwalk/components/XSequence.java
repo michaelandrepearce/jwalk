@@ -2,7 +2,7 @@ package org.simplecoding.jwalk.components;
 
 import java.util.LinkedList;
 import java.util.List;
-import org.simplecoding.jwalk.OFlexException;
+import org.simplecoding.jwalk.JWalkException;
 
 /**
  *
@@ -39,7 +39,7 @@ public class XSequence
     @Override
     public Object evaluate(Object instance)
         throws
-            OFlexException {
+            JWalkException {
 
         Object result = instance;
         for(XComponent component: this.components) {

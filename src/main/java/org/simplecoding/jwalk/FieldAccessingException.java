@@ -6,7 +6,7 @@ package org.simplecoding.jwalk;
  */
 public class FieldAccessingException
     extends
-        OFlexException {
+        JWalkException {
 
     private static final long serialVersionUID = 1L;
 

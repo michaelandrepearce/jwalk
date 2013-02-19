@@ -31,16 +31,22 @@ public class Walker {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
+    public Object evaluate(String expression)
+        throws
+            JWalkException {
+
+        return
+            ComponentFactory.getInstance()
+                .createXSequence(expression)
+                    .evaluate(instance);
+    }
+
     @SuppressWarnings("unchecked")
     public <T> T evaluate(String expression, Class<T> cast)
         throws
-            OFlexException {
+            JWalkException {
 
-        return
-            (T)
-                ComponentFactory.getInstance()
-                    .createXSequence(expression)
-                        .evaluate(instance);
+        return (T) this.evaluate(expression);
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *
