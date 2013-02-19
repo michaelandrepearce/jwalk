@@ -1,7 +1,7 @@
 package org.simplecoding.jwalk;
 
-import org.simplecoding.jwalk.exceptions.JWalkException;
 import org.simplecoding.jwalk.components.ComponentFactory;
+import org.simplecoding.jwalk.exceptions.JWalkException;
 
 /**
  *
@@ -12,17 +12,21 @@ public class Walker {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Static Fields
      * -------------------------------------------------------------------------------------------------------------- */
+    private static final class SingletonHolder {
+        private static final Walker INSTANCE = new Walker();
+    }
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Fields
      * -------------------------------------------------------------------------------------------------------------- */
-    private Object instance;
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Constructor
      * -------------------------------------------------------------------------------------------------------------- */
-    public Walker(Object instance) {
-        this.instance = instance;
+    private Walker() {}
+
+    public static Walker getInstance() {
+        return SingletonHolder.INSTANCE;
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *
@@ -32,7 +36,7 @@ public class Walker {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
-    public Object evaluate(String expression)
+    public Object evaluate(Object instance, String expression)
         throws
             JWalkException {
 
@@ -43,11 +47,11 @@ public class Walker {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T evaluate(String expression, Class<T> cast)
+    public <T> T evaluate(Object instance, String expression, Class<T> cast)
         throws
             JWalkException {
 
-        return (T) this.evaluate(expression);
+        return (T) this.evaluate(instance, expression);
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *

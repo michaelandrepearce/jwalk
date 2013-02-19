@@ -1,6 +1,5 @@
 package org.simplecoding.jwalk;
 
-import org.simplecoding.jwalk.Walker;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,8 +23,7 @@ public class WalkerTest {
     private Integer number;
     private String  message;
 
-    private Walker              instance;
-    private ComplexStructure    bean;
+    private ComplexStructure bean;
 
     public WalkerTest() {
         this.number     = 16;
@@ -37,7 +35,6 @@ public class WalkerTest {
                     new SimpleStructure()
                         .setNumber(this.number)
                         .setMessage(this.message));
-        this.instance = new Walker(this.bean);
     }
 
     @BeforeClass
@@ -70,7 +67,8 @@ public class WalkerTest {
 
         assertEquals(
             this.message,
-            this.instance.evaluate(
+            Walker.getInstance().evaluate(
+                this.bean,
                 "simple.message",
                 String.class));
     }
@@ -89,7 +87,8 @@ public class WalkerTest {
 
         assertEquals(
             this.message,
-            this.instance.evaluate(
+            Walker.getInstance().evaluate(
+                this.bean,
                 "getSimple().getMessage()",
                 String.class));
     }
@@ -108,8 +107,29 @@ public class WalkerTest {
 
         assertEquals(
             this.number,
-            this.instance.evaluate(
+            Walker.getInstance().evaluate(
+                this.bean,
                 "getSimple().number",
                 String.class));
+    }
+
+    /**
+     * Test of evaluate method, of class Walker.
+     */
+    @Test
+    public void testEvaluateWithEmptyExpression()
+        throws
+               Exception {
+
+        LOGGER.debug("--------------------------------------------------------------------------------");
+        LOGGER.debug(" testEvaluateWithEmptyExpression");
+        LOGGER.debug("--------------------------------------------------------------------------------");
+
+        assertEquals(
+            this.bean,
+            Walker.getInstance().evaluate(
+                this.bean,
+                "",
+                ComplexStructure.class));
     }
 }

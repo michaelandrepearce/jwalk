@@ -1,6 +1,5 @@
 package org.simplecoding.jwalk.components;
 
-import org.simplecoding.jwalk.components.XField;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
