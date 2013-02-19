@@ -1,7 +1,7 @@
 package org.simplecoding.jwalk.components;
 
 import java.lang.reflect.Field;
-import org.simplecoding.jwalk.FieldAccessingException;
+import org.simplecoding.jwalk.exceptions.FieldAccessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -2,7 +2,7 @@ package org.simplecoding.jwalk.components;
 
 import java.util.LinkedList;
 import java.util.List;
-import org.simplecoding.jwalk.JWalkException;
+import org.simplecoding.jwalk.exceptions.JWalkException;
 
 /**
  *

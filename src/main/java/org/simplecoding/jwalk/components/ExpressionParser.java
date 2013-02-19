@@ -3,7 +3,7 @@ package org.simplecoding.jwalk.components;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
-import org.simplecoding.jwalk.JWalkException;
+import org.simplecoding.jwalk.exceptions.JWalkException;
 import org.simplecoding.jwalk.components.XSequence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

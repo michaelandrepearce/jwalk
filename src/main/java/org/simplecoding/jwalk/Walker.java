@@ -1,5 +1,6 @@
 package org.simplecoding.jwalk;
 
+import org.simplecoding.jwalk.exceptions.JWalkException;
 import org.simplecoding.jwalk.components.ComponentFactory;
 
 /**

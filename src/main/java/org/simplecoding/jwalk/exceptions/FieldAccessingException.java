@@ -1,4 +1,4 @@
-package org.simplecoding.jwalk;
+package org.simplecoding.jwalk.exceptions;
 
 /**
  *
