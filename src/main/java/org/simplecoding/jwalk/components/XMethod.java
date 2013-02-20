@@ -2,6 +2,7 @@ package org.simplecoding.jwalk.components;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 import org.simplecoding.jwalk.exceptions.MethodAccessingException;
 import org.slf4j.Logger;
@@ -47,7 +48,7 @@ public class XMethod
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
     @Override
-    public Object evaluate(Object instance, Object... args)
+    public Object evaluate(Object instance, Deque<Object> args)
         throws
             MethodAccessingException {
 
@@ -73,7 +74,7 @@ public class XMethod
 
     public XMethod add(Class<?> clazz) {
         LOGGER.debug(
-            new StringBuilder("add argument : ")
+            new StringBuilder("add argument class : ")
                 .append(clazz.getName())
                 .toString());
 

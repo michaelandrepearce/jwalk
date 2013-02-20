@@ -1,5 +1,6 @@
 package org.simplecoding.jwalk.components;
 
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import org.simplecoding.jwalk.exceptions.JWalkException;
@@ -37,7 +38,7 @@ public class XSequence
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
     @Override
-    public Object evaluate(Object instance)
+    public Object evaluate(Object instance, Deque<Object> args)
         throws
             JWalkException {
 

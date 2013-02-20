@@ -37,7 +37,7 @@ public class Walker {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
-    public Object evaluate(Object instance, String expression, Argument... arguments)
+    public Object evaluate(Object instance, String expression)
         throws
             JWalkException {
 
@@ -56,7 +56,7 @@ public class Walker {
         }
     }
 
-    public Object evaluate(Object instance, XSequence sequence, Argument... arguments)
+    public Object evaluate(Object instance, XSequence sequence, Object... arguments)
         throws
             JWalkException {
 
@@ -65,7 +65,7 @@ public class Walker {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T evaluate(Object instance, String expression, Class<T> cast, Argument... arguments)
+    public <T> T evaluate(Object instance, String expression, Class<T> cast)
         throws
             JWalkException {
 
@@ -73,7 +73,7 @@ public class Walker {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T evaluate(Object instance, XSequence sequence, Class<T> cast, Argument... arguments)
+    public <T> T evaluate(Object instance, XSequence sequence, Class<T> cast, Object... arguments)
         throws
             JWalkException {
 

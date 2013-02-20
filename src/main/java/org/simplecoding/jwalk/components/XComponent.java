@@ -1,5 +1,6 @@
 package org.simplecoding.jwalk.components;
 
+import java.util.Deque;
 import org.simplecoding.jwalk.exceptions.JWalkException;
 
 /**
@@ -35,7 +36,7 @@ public abstract class XComponent {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
-    public abstract Object evaluate(Object instance, Object... arguments)
+    public abstract Object evaluate(Object instance, Deque<Object> arguments)
         throws
             JWalkException;
 

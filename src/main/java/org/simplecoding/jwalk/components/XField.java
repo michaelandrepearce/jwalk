@@ -1,6 +1,7 @@
 package org.simplecoding.jwalk.components;
 
 import java.lang.reflect.Field;
+import java.util.Deque;
 import org.simplecoding.jwalk.exceptions.FieldAccessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ public class XField
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
     @Override
-    public Object evaluate(Object instance, Object... arguments)
+    public Object evaluate(Object instance, Deque<Object> arguments)
         throws
             FieldAccessingException {
 
