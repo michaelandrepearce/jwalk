@@ -35,7 +35,7 @@ public abstract class XComponent {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
-    public abstract Object evaluate(Object instance)
+    public abstract Object evaluate(Object instance, Object... arguments)
         throws
             JWalkException;
 

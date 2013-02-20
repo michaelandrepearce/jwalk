@@ -42,7 +42,7 @@ public class XField
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
     @Override
-    public Object evaluate(Object instance)
+    public Object evaluate(Object instance, Object... arguments)
         throws
             FieldAccessingException {
 

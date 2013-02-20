@@ -1,5 +1,7 @@
 package org.simplecoding.jwalk.components;
 
+import org.simplecoding.jwalk.ExpressionParser;
+
 /**
  *
  * @author fred

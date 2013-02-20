@@ -1,8 +1,16 @@
-package org.simplecoding.jwalk.components;
+package org.simplecoding.jwalk;
 
+import java.util.Arrays;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
+import org.simplecoding.jwalk.components.Argument;
+import org.simplecoding.jwalk.components.XField;
+import org.simplecoding.jwalk.components.XMethod;
+import org.simplecoding.jwalk.components.XSequence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,13 +33,15 @@ public class ExpressionParser {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Fields
      * -------------------------------------------------------------------------------------------------------------- */
-    private Pattern componentPattern;
+    private Pattern idPattern;
+    private Pattern argumentPattern;
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Constructor
      * -------------------------------------------------------------------------------------------------------------- */
     private ExpressionParser() {
-        this.componentPattern = Pattern.compile("(\\w+)(\\(\\))?\\.?");
+        this.idPattern          = Pattern.compile("(\\w+)(\\(([^)]*)\\))?\\.?");
+        this.argumentPattern    = Pattern.compile("(%)\\s*,?\\s*");
     }
 
     public static ExpressionParser getInstance() {
@@ -45,7 +55,8 @@ public class ExpressionParser {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
-    public XSequence parse(String expression) {
+    public XSequence parse(String expression, Class<?>... classes) {
+        Deque<Class<?>> arguments = new LinkedList<Class<?>>(Arrays.asList(classes));
 
         LOGGER.debug(
             new StringBuilder("parse expression : '")
@@ -55,10 +66,10 @@ public class ExpressionParser {
 
         XSequence sequence = new XSequence();
 
-        Matcher matcher = this.componentPattern.matcher(expression);
-        while(matcher.find()) {
-            String id           = matcher.group(1);
-            String parenthesis  = matcher.group(2);
+        Matcher idMatcher = this.idPattern.matcher(expression);
+        while(idMatcher.find()) {
+            String id           = idMatcher.group(1);
+            String parenthesis  = idMatcher.group(2);
 
             //----------------------------------------------------------------------------------------------------------
             // Field
@@ -69,24 +80,41 @@ public class ExpressionParser {
                         .append(id)
                         .append("'")
                         .toString());
-                sequence
-                    .add(
-                        ComponentFactory.getInstance()
-                            .createXField(id));
+
+                sequence.add(new XField(id));
             }
             //----------------------------------------------------------------------------------------------------------
             // Method
             //----------------------------------------------------------------------------------------------------------
             else {
+                String  argumentsLine   = idMatcher.group(3);
+                Matcher argumentMatcher = this.argumentPattern.matcher(argumentsLine);
+
                 LOGGER.debug(
-                    new StringBuilder("add method : '")
-                        .append(id)
+                    new StringBuilder("add method : ")
+                        .append("'")
+                            .append(id).append("(").append(argumentsLine).append(")")
                         .append("'")
                         .toString());
-                sequence
-                    .add(
-                        ComponentFactory.getInstance()
-                            .createXMethod(id));
+
+                XMethod method = new XMethod(id);
+
+                while(argumentMatcher.find()) {
+                    String placeHolder = argumentMatcher.group(1);
+
+                    LOGGER.debug(
+                        new StringBuilder("add method argument : ")
+                            .append("'")
+                                .append(placeHolder)
+                            .append("'")
+                            .toString());
+
+                    Class<?> clazz = arguments.pop();
+
+                    method.add(clazz);
+                }
+
+                sequence.add(method);
             }
         }
 

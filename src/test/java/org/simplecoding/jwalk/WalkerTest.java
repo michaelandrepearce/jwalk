@@ -132,4 +132,24 @@ public class WalkerTest {
                 "",
                 ComplexStructure.class));
     }
+
+    /**
+     * Test of evaluate method, of class Walker.
+     */
+    @Test
+    public void testEvaluateWithArguments()
+        throws
+               Exception {
+
+        LOGGER.debug("--------------------------------------------------------------------------------");
+        LOGGER.debug(" testEvaluateWithArguments");
+        LOGGER.debug("--------------------------------------------------------------------------------");
+
+        assertEquals(
+            'a',
+            Walker.getInstance().evaluate(
+                this.message,
+                "charAt(%)",
+                ComplexStructure.class));
+    }
 }

@@ -1,7 +1,8 @@
 package org.simplecoding.jwalk.components;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import org.simplecoding.jwalk.exceptions.MethodAccessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ public class XMethod
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Fields
      * -------------------------------------------------------------------------------------------------------------- */
+    private List<Class<?>> classes;
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Constructor
@@ -33,6 +35,8 @@ public class XMethod
 
     public XMethod(String id) {
         super(id);
+
+        this.classes = new ArrayList<Class<?>>(4);
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *
@@ -43,19 +47,39 @@ public class XMethod
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
     @Override
-    public Object evaluate(Object instance)
+    public Object evaluate(Object instance, Object... args)
         throws
             MethodAccessingException {
 
         try {
-            Method method = instance.getClass().getMethod(this.getId());
+            Method method =
+                instance.getClass()
+                    .getDeclaredMethod(
+                        this.getId(),
+                        this.classes.toArray(new Class<?>[] {}));
+
             method.setAccessible(true);
 
-            return method.invoke(instance);
+            return
+                method
+                    .invoke(
+                        instance,
+                        this.values.toArray(new Object[] {}));
         }
         catch (Exception e) {
             throw new MethodAccessingException(e);
         }
+    }
+
+    public XMethod add(Class<?> clazz) {
+        LOGGER.debug(
+            new StringBuilder("add argument : ")
+                .append(clazz.getName())
+                .toString());
+
+        this.classes.add(clazz);
+
+        return this;
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *

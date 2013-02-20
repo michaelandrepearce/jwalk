@@ -23,17 +23,11 @@ public class XMethodTest {
     private Integer number;
     private String  message;
 
-    private XMethod numberMethod;
-    private XMethod messageMethod;
-
     private SimpleStructure simple;
 
     public XMethodTest() {
         this.number     = 16;
         this.message    = "Ca marche";
-
-        this.numberMethod    = new XMethod("getNumber");
-        this.messageMethod   = new XMethod("getMessage");
 
         this.simple =
             new SimpleStructure()
@@ -71,7 +65,8 @@ public class XMethodTest {
 
         assertEquals(
             this.number,
-            this.numberMethod.evaluate(this.simple));
+            new XMethod("getNumber")
+                .evaluate(this.simple));
     }
 
     /**
@@ -88,6 +83,26 @@ public class XMethodTest {
 
         assertEquals(
             this.message,
-            this.messageMethod.evaluate(this.simple));
+            new XMethod("getMessage")
+                .evaluate(this.simple));
+    }
+
+    /**
+     * Test of evaluate method, of class XField.
+     */
+    @Test
+    public void testEvaluateWithArguments()
+        throws
+            Exception {
+
+        LOGGER.debug("--------------------------------------------------------------------------------");
+        LOGGER.debug(" testEvaluateWithArguments");
+        LOGGER.debug("--------------------------------------------------------------------------------");
+
+        assertEquals(
+            'a',
+            new XMethod("charAt")
+                .add(Integer.TYPE, 4)
+                .evaluate(this.message));
     }
 }
