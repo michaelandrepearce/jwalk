@@ -1,6 +1,5 @@
 package org.simplecoding.jwalk;
 
-import org.simplecoding.jwalk.components.Argument;
 import org.simplecoding.jwalk.components.ComponentFactory;
 import org.simplecoding.jwalk.components.XSequence;
 import org.simplecoding.jwalk.exceptions.JWalkException;

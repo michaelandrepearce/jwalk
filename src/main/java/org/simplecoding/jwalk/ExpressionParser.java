@@ -3,11 +3,9 @@ package org.simplecoding.jwalk;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
-import org.simplecoding.jwalk.components.Argument;
 import org.simplecoding.jwalk.components.XField;
 import org.simplecoding.jwalk.components.XMethod;
 import org.simplecoding.jwalk.components.XSequence;
@@ -100,18 +98,11 @@ public class ExpressionParser {
                 XMethod method = new XMethod(id);
 
                 while(argumentMatcher.find()) {
-                    String placeHolder = argumentMatcher.group(1);
-
                     LOGGER.debug(
-                        new StringBuilder("add method argument : ")
-                            .append("'")
-                                .append(placeHolder)
-                            .append("'")
+                        new StringBuilder("add method argument")
                             .toString());
 
-                    Class<?> clazz = arguments.pop();
-
-                    method.add(clazz);
+                    method.add(arguments.pop());
                 }
 
                 sequence.add(method);
