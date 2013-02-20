@@ -1,6 +1,7 @@
 package org.simplecoding.jwalk.components;
 
 import java.util.Deque;
+import java.util.LinkedList;
 import org.simplecoding.jwalk.exceptions.JWalkException;
 
 /**
@@ -36,6 +37,16 @@ public abstract class XComponent {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
+    public Object evaluate(Object instance)
+        throws
+            JWalkException {
+
+        return
+            this.evaluate(
+                instance,
+                new LinkedList<Object>());
+    }
+
     public abstract Object evaluate(Object instance, Deque<Object> arguments)
         throws
             JWalkException;

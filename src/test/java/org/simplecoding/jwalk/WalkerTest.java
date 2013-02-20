@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.simplecoding.jwalk.components.XSequence;
 import org.simplecoding.jwalk.structures.ComplexStructure;
 import org.simplecoding.jwalk.structures.SimpleStructure;
 import org.slf4j.Logger;
@@ -145,11 +146,18 @@ public class WalkerTest {
         LOGGER.debug(" testEvaluateWithArguments");
         LOGGER.debug("--------------------------------------------------------------------------------");
 
+        XSequence sequence =
+            ExpressionParser.getInstance()
+                .parse(
+                    "charAt(%)",
+                    Integer.TYPE);
+
         assertEquals(
             'a',
-            Walker.getInstance().evaluate(
-                this.message,
-                "charAt(%)",
-                ComplexStructure.class));
+            Walker.getInstance()
+                .evaluate(
+                    this.message,
+                    sequence,
+                    4));
     }
 }

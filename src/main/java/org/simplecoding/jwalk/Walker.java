@@ -1,5 +1,7 @@
 package org.simplecoding.jwalk;
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import org.simplecoding.jwalk.components.ComponentFactory;
 import org.simplecoding.jwalk.components.XSequence;
 import org.simplecoding.jwalk.exceptions.JWalkException;
@@ -56,14 +58,6 @@ public class Walker {
         }
     }
 
-    public Object evaluate(Object instance, XSequence sequence, Object... arguments)
-        throws
-            JWalkException {
-
-        return
-            sequence.evaluate(instance);
-    }
-
     @SuppressWarnings("unchecked")
     public <T> T evaluate(Object instance, String expression, Class<T> cast)
         throws
@@ -72,12 +66,23 @@ public class Walker {
         return (T) this.evaluate(instance, expression);
     }
 
+    public Object evaluate(Object instance, XSequence sequence, Object... arguments)
+        throws
+            JWalkException {
+
+        return
+            sequence.evaluate(
+                instance,
+                new LinkedList<Object>(
+                    Arrays.asList(arguments)));
+    }
+
     @SuppressWarnings("unchecked")
     public <T> T evaluate(Object instance, XSequence sequence, Class<T> cast, Object... arguments)
         throws
             JWalkException {
 
-        return (T) this.evaluate(instance, sequence);
+        return (T) this.evaluate(instance, sequence, arguments);
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *

@@ -1,5 +1,6 @@
 package org.simplecoding.jwalk.components;
 
+import java.util.LinkedList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

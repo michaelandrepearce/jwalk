@@ -44,7 +44,7 @@ public class XSequence
 
         Object result = instance;
         for(XComponent component: this.components) {
-            result = component.evaluate(result);
+            result = component.evaluate(result, args);
         }
 
         return result;

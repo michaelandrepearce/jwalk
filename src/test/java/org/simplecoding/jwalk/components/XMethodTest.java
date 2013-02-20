@@ -1,5 +1,7 @@
 package org.simplecoding.jwalk.components;
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import org.simplecoding.jwalk.components.XMethod;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -102,7 +104,11 @@ public class XMethodTest {
         assertEquals(
             'a',
             new XMethod("charAt")
-                .add(Integer.TYPE, 4)
-                .evaluate(this.message));
+                .add(Integer.TYPE)
+                .evaluate(
+                    this.message,
+                    new LinkedList<Object>(
+                        Arrays.asList(
+                            new Object[] { 4 }))));
     }
 }

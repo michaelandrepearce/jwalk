@@ -61,11 +61,16 @@ public class XMethod
 
             method.setAccessible(true);
 
+            Object[] arguments = new Object[this.classes.size()];
+            for(int i = 0; i < arguments.length; i++) {
+                arguments[i] = args.pop();
+            }
+
             return
                 method
                     .invoke(
                         instance,
-                        this.values.toArray(new Object[] {}));
+                        arguments);
         }
         catch (Exception e) {
             throw new MethodAccessingException(e);
