@@ -9,9 +9,9 @@ import org.simplecoding.jwalk.exceptions.JWalkException;
  *
  * @author fred
  */
-public class XSequence
+public class WalkSequence
     extends
-        XComponent {
+        WalkComponent {
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Static Fields
@@ -21,13 +21,13 @@ public class XSequence
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Fields
      * -------------------------------------------------------------------------------------------------------------- */
-    private List<XComponent> components;
+    private List<WalkComponent> components;
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Constructor
      * -------------------------------------------------------------------------------------------------------------- */
-    public XSequence() {
-        this.components = new LinkedList<XComponent>();
+    public WalkSequence() {
+        this.components = new LinkedList<WalkComponent>();
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *
@@ -43,14 +43,14 @@ public class XSequence
             JWalkException {
 
         Object result = instance;
-        for(XComponent component: this.components) {
+        for(WalkComponent component: this.components) {
             result = component.evaluate(result, args);
         }
 
         return result;
     }
 
-    public XSequence add(XComponent component) {
+    public WalkSequence add(WalkComponent component) {
         this.components.add(component);
 
         return this;

@@ -1,12 +1,13 @@
 package org.simplecoding.jwalk;
 
+import org.simplecoding.jwalk.components.SequenceBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.simplecoding.jwalk.components.XSequence;
+import org.simplecoding.jwalk.components.WalkSequence;
 import org.simplecoding.jwalk.structures.ComplexStructure;
 import org.simplecoding.jwalk.structures.SimpleStructure;
 import org.slf4j.Logger;
@@ -146,9 +147,9 @@ public class WalkerTest {
         LOGGER.debug(" testEvaluateWithArguments");
         LOGGER.debug("--------------------------------------------------------------------------------");
 
-        XSequence sequence =
-            ExpressionParser.getInstance()
-                .parse(
+        WalkSequence sequence =
+            WalkFactory.getInstance()
+                .createSequence(
                     "charAt(%)",
                     Integer.TYPE);
 

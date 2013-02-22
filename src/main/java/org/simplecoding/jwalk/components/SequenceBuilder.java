@@ -1,4 +1,4 @@
-package org.simplecoding.jwalk;
+package org.simplecoding.jwalk.components;
 
 import java.util.Arrays;
 import java.util.Deque;
@@ -6,9 +6,6 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
-import org.simplecoding.jwalk.components.XField;
-import org.simplecoding.jwalk.components.XMethod;
-import org.simplecoding.jwalk.components.XSequence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,17 +13,13 @@ import org.slf4j.LoggerFactory;
  *
  * @author fred
  */
-public class ExpressionParser {
+public class SequenceBuilder {
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Static Fields
      * -------------------------------------------------------------------------------------------------------------- */
     private static final Logger LOGGER =
-        LoggerFactory.getLogger(ExpressionParser.class);
-
-    private static final class SingletonHolder {
-        private static final ExpressionParser INSTANCE = new ExpressionParser();
-    }
+        LoggerFactory.getLogger(SequenceBuilder.class);
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Fields
@@ -37,13 +30,9 @@ public class ExpressionParser {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Constructor
      * -------------------------------------------------------------------------------------------------------------- */
-    private ExpressionParser() {
+    public SequenceBuilder() {
         this.idPattern          = Pattern.compile("(\\w+)(\\(([^)]*)\\))?\\.?");
         this.argumentPattern    = Pattern.compile("(%)\\s*,?\\s*");
-    }
-
-    public static ExpressionParser getInstance() {
-        return SingletonHolder.INSTANCE;
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *
@@ -53,7 +42,7 @@ public class ExpressionParser {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
-    public XSequence parse(String expression, Class<?>... classes) {
+    public WalkSequence parse(String expression, Class<?>... classes) {
         Deque<Class<?>> arguments = new LinkedList<Class<?>>(Arrays.asList(classes));
 
         LOGGER.debug(
@@ -62,7 +51,7 @@ public class ExpressionParser {
                 .append("'")
                 .toString());
 
-        XSequence sequence = new XSequence();
+        WalkSequence sequence = new WalkSequence();
 
         Matcher idMatcher = this.idPattern.matcher(expression);
         while(idMatcher.find()) {
@@ -79,7 +68,7 @@ public class ExpressionParser {
                         .append("'")
                         .toString());
 
-                sequence.add(new XField(id));
+                sequence.add(new WalkField(id));
             }
             //----------------------------------------------------------------------------------------------------------
             // Method
@@ -95,7 +84,7 @@ public class ExpressionParser {
                         .append("'")
                         .toString());
 
-                XMethod method = new XMethod(id);
+                WalkMethod method = new WalkMethod(id);
 
                 while(argumentMatcher.find()) {
                     LOGGER.debug(

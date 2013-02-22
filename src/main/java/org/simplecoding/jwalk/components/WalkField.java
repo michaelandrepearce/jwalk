@@ -1,19 +1,24 @@
 package org.simplecoding.jwalk.components;
 
-import org.simplecoding.jwalk.ExpressionParser;
+import java.lang.reflect.Field;
+import java.util.Deque;
+import org.simplecoding.jwalk.exceptions.FieldAccessingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author fred
  */
-public class ComponentFactory {
+public class WalkField
+    extends
+        WalkComponent {
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Static Fields
      * -------------------------------------------------------------------------------------------------------------- */
-    private static final class SingletonHolder {
-        private static final ComponentFactory INSTANCE = new ComponentFactory();
-    }
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(WalkField.class);
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Fields
@@ -22,29 +27,35 @@ public class ComponentFactory {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Constructor
      * -------------------------------------------------------------------------------------------------------------- */
-    private ComponentFactory() {}
+    public WalkField() {
+        this(null);
+    }
+
+    public WalkField(String id) {
+        super(id);
+    }
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Lifecycle methods
      * -------------------------------------------------------------------------------------------------------------- */
-    public static ComponentFactory getInstance() {
-        return SingletonHolder.INSTANCE;
-    }
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
-    public XSequence createXSequence(String expression) {
-        return
-            ExpressionParser.getInstance().parse(expression);
-    }
+    @Override
+    public Object evaluate(Object instance, Deque<Object> arguments)
+        throws
+            FieldAccessingException {
 
-    public XField createXField(String id) {
-        return new XField(id);
-    }
+        try {
+            Field field = instance.getClass().getDeclaredField(this.getId());
+            field.setAccessible(true);
 
-    public XMethod createXMethod(String id) {
-        return new XMethod(id);
+            return field.get(instance);
+        }
+        catch (Exception e) {
+            throw new FieldAccessingException(e);
+        }
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *
