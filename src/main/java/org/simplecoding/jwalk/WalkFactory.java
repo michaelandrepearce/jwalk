@@ -1,55 +1,58 @@
-package org.simplecoding.jwalk.components;
+package org.simplecoding.jwalk;
 
-import java.util.Deque;
-import java.util.LinkedList;
-import org.simplecoding.jwalk.exceptions.JWalkException;
+import org.simplecoding.jwalk.components.SequenceBuilder;
+import org.simplecoding.jwalk.components.WalkField;
+import org.simplecoding.jwalk.components.WalkMethod;
+import org.simplecoding.jwalk.components.WalkSequence;
 
 /**
  *
  * @author fred
  */
-public abstract class XComponent {
+public class WalkFactory {
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Static Fields
      * -------------------------------------------------------------------------------------------------------------- */
+    private static final class SingletonHolder {
+        private static final WalkFactory INSTANCE = new WalkFactory();
+    }
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Fields
      * -------------------------------------------------------------------------------------------------------------- */
-    private String id;
+    private SequenceBuilder sequenceBuilder;
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Constructor
      * -------------------------------------------------------------------------------------------------------------- */
-    public XComponent() {
-        this(null);
-    }
-
-    public XComponent(String id) {
-        this.id = id;
+    private WalkFactory() {
+        this.sequenceBuilder = new SequenceBuilder();
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Lifecycle methods
      * -------------------------------------------------------------------------------------------------------------- */
+    public static WalkFactory getInstance() {
+        return SingletonHolder.INSTANCE;
+    }
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
-    public Object evaluate(Object instance)
-        throws
-            JWalkException {
-
+    public WalkSequence createSequence(String expression, Class<?>... classes) {
         return
-            this.evaluate(
-                instance,
-                new LinkedList<Object>());
+            this.sequenceBuilder.parse(
+                expression, classes);
     }
 
-    public abstract Object evaluate(Object instance, Deque<Object> arguments)
-        throws
-            JWalkException;
+    public WalkField createField(String id) {
+        return new WalkField(id);
+    }
+
+    public WalkMethod createMethod(String id) {
+        return new WalkMethod(id);
+    }
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private methods
@@ -58,13 +61,5 @@ public abstract class XComponent {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Getters & Setters
      * -------------------------------------------------------------------------------------------------------------- */
-    public String getId() {
-        return id;
-    }
 
-    public XComponent setId(String id) {
-        this.id = id;
-
-        return this;
-    }
 }

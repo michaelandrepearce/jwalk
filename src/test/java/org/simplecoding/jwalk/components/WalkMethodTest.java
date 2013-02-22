@@ -2,7 +2,7 @@ package org.simplecoding.jwalk.components;
 
 import java.util.Arrays;
 import java.util.LinkedList;
-import org.simplecoding.jwalk.components.XMethod;
+import org.simplecoding.jwalk.components.WalkMethod;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,17 +17,17 @@ import static org.junit.Assert.*;
  *
  * @author fred
  */
-public class XMethodTest {
+public class WalkMethodTest {
 
     private static final Logger LOGGER =
-        LoggerFactory.getLogger(XMethodTest.class);
+        LoggerFactory.getLogger(WalkMethodTest.class);
 
     private Integer number;
     private String  message;
 
     private SimpleStructure simple;
 
-    public XMethodTest() {
+    public WalkMethodTest() {
         this.number     = 16;
         this.message    = "Ca marche";
 
@@ -67,7 +67,7 @@ public class XMethodTest {
 
         assertEquals(
             this.number,
-            new XMethod("getNumber")
+            new WalkMethod("getNumber")
                 .evaluate(this.simple));
     }
 
@@ -85,7 +85,7 @@ public class XMethodTest {
 
         assertEquals(
             this.message,
-            new XMethod("getMessage")
+            new WalkMethod("getMessage")
                 .evaluate(this.simple));
     }
 
@@ -103,7 +103,7 @@ public class XMethodTest {
 
         assertEquals(
             'a',
-            new XMethod("charAt")
+            new WalkMethod("charAt")
                 .add(Integer.TYPE)
                 .evaluate(
                     this.message,

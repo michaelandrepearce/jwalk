@@ -15,25 +15,25 @@ import static org.junit.Assert.*;
  *
  * @author fred
  */
-public class XFieldTest {
+public class WalkFieldTest {
 
     private static final Logger LOGGER =
-        LoggerFactory.getLogger(XFieldTest.class);
+        LoggerFactory.getLogger(WalkFieldTest.class);
 
     private Integer number;
     private String  message;
 
-    private XField numberField;
-    private XField messageField;
+    private WalkField numberField;
+    private WalkField messageField;
 
     private SimpleStructure bean;
 
-    public XFieldTest() {
+    public WalkFieldTest() {
         this.number     = 16;
         this.message    = "Ca marche";
 
-        this.numberField    = new XField("number");
-        this.messageField   = new XField("message");
+        this.numberField    = new WalkField("number");
+        this.messageField   = new WalkField("message");
 
         this.bean =
             new SimpleStructure()
@@ -58,7 +58,7 @@ public class XFieldTest {
     }
 
     /**
-     * Test of evaluate method, of class XField.
+     * Test of evaluate method, of class WalkField.
      */
     @Test
     public void testEvaluateNumber()
@@ -75,7 +75,7 @@ public class XFieldTest {
     }
 
     /**
-     * Test of evaluate method, of class XField.
+     * Test of evaluate method, of class WalkField.
      */
     @Test
     public void testEvaluateMessage()

@@ -15,35 +15,35 @@ import static org.junit.Assert.*;
  *
  * @author fred
  */
-public class XSequenceTest {
+public class WalkSequenceTest {
 
     private static final Logger LOGGER =
-        LoggerFactory.getLogger(XSequenceTest.class);
+        LoggerFactory.getLogger(WalkSequenceTest.class);
 
     private Integer number;
     private String  message;
 
-    private XField simpleField;
-    private XField numberField;
-    private XField messageField;
+    private WalkField simpleField;
+    private WalkField numberField;
+    private WalkField messageField;
 
-    private XMethod simpleMethod;
-    private XMethod numberMethod;
-    private XMethod messageMethod;
+    private WalkMethod simpleMethod;
+    private WalkMethod numberMethod;
+    private WalkMethod messageMethod;
 
     private ComplexStructure bean;
 
-    public XSequenceTest() {
+    public WalkSequenceTest() {
         this.number     = 16;
         this.message    = "Ca marche";
 
-        this.simpleField    = new XField("simple");
-        this.numberField    = new XField("number");
-        this.messageField   = new XField("message");
+        this.simpleField    = new WalkField("simple");
+        this.numberField    = new WalkField("number");
+        this.messageField   = new WalkField("message");
 
-        this.simpleMethod   = new XMethod("getSimple");
-        this.numberMethod   = new XMethod("getNumber");
-        this.messageMethod  = new XMethod("getMessage");
+        this.simpleMethod   = new WalkMethod("getSimple");
+        this.numberMethod   = new WalkMethod("getNumber");
+        this.messageMethod  = new WalkMethod("getMessage");
 
         this.bean =
             new ComplexStructure()
@@ -70,7 +70,7 @@ public class XSequenceTest {
     }
 
     /**
-     * Test of evaluate method, of class XField.
+     * Test of evaluate method, of class WalkField.
      */
     @Test
     public void testEvaluateNumberFields()
@@ -83,14 +83,14 @@ public class XSequenceTest {
 
         assertEquals(
             this.number,
-            new XSequence()
+            new WalkSequence()
                 .add(this.simpleField)
                 .add(this.numberField)
                 .evaluate(this.bean));
     }
 
     /**
-     * Test of evaluate method, of class XField.
+     * Test of evaluate method, of class WalkField.
      */
     @Test
     public void testEvaluateMessageFields()
@@ -103,14 +103,14 @@ public class XSequenceTest {
 
         assertEquals(
             this.message,
-            new XSequence()
+            new WalkSequence()
                 .add(this.simpleField)
                 .add(this.messageField)
                 .evaluate(this.bean));
     }
 
     /**
-     * Test of evaluate method, of class XField.
+     * Test of evaluate method, of class WalkField.
      */
     @Test
     public void testEvaluateNumberMethods()
@@ -123,14 +123,14 @@ public class XSequenceTest {
 
         assertEquals(
             this.number,
-            new XSequence()
+            new WalkSequence()
                 .add(this.simpleMethod)
                 .add(this.numberMethod)
                 .evaluate(this.bean));
     }
 
     /**
-     * Test of evaluate method, of class XField.
+     * Test of evaluate method, of class WalkField.
      */
     @Test
     public void testEvaluateMessageMethods()
@@ -143,14 +143,14 @@ public class XSequenceTest {
 
         assertEquals(
             this.message,
-            new XSequence()
+            new WalkSequence()
                 .add(this.simpleMethod)
                 .add(this.messageMethod)
                 .evaluate(this.bean));
     }
 
     /**
-     * Test of evaluate method, of class XField.
+     * Test of evaluate method, of class WalkField.
      */
     @Test
     public void testEvaluateNumberMixed()
@@ -163,14 +163,14 @@ public class XSequenceTest {
 
         assertEquals(
             this.number,
-            new XSequence()
+            new WalkSequence()
                 .add(this.simpleField)
                 .add(this.numberMethod)
                 .evaluate(this.bean));
     }
 
     /**
-     * Test of evaluate method, of class XField.
+     * Test of evaluate method, of class WalkField.
      */
     @Test
     public void testEvaluateMessageMixed()
@@ -183,7 +183,7 @@ public class XSequenceTest {
 
         assertEquals(
             this.message,
-            new XSequence()
+            new WalkSequence()
                 .add(this.simpleMethod)
                 .add(this.messageField)
                 .evaluate(this.bean));

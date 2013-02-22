@@ -12,15 +12,15 @@ import org.slf4j.LoggerFactory;
  *
  * @author fred
  */
-public class XMethod
+public class WalkMethod
     extends
-        XComponent {
+        WalkComponent {
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Static Fields
      * -------------------------------------------------------------------------------------------------------------- */
     private static final Logger LOGGER =
-        LoggerFactory.getLogger(XMethod.class);
+        LoggerFactory.getLogger(WalkMethod.class);
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Fields
@@ -30,11 +30,11 @@ public class XMethod
     /* -------------------------------------------------------------------------------------------------------------- *
      * Constructor
      * -------------------------------------------------------------------------------------------------------------- */
-    public XMethod() {
+    public WalkMethod() {
         this(null);
     }
 
-    public XMethod(String id) {
+    public WalkMethod(String id) {
         super(id);
 
         this.classes = new ArrayList<Class<?>>(4);
@@ -77,7 +77,7 @@ public class XMethod
         }
     }
 
-    public XMethod add(Class<?> clazz) {
+    public WalkMethod add(Class<?> clazz) {
         LOGGER.debug(
             new StringBuilder("add argument class : ")
                 .append(clazz.getName())
