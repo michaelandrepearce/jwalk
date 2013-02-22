@@ -1,1 +1,7 @@
-/target/
+.svn/                                                                                                                                                                                                                             
+target/
+.settings
+.project
+.classpath
+gitlog
+
