@@ -5,12 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.simplecoding.jwalk.components.WalkSequence;
 import org.simplecoding.jwalk.exceptions.JWalkException;
+import org.simplecoding.jwalk.exceptions.MethodAccessingException;
 import org.simplecoding.jwalk.structures.ComplexStructure;
 import org.simplecoding.jwalk.structures.SimpleStructure;
 import org.slf4j.Logger;
@@ -176,13 +177,13 @@ public class WalkerTest {
      * @throws JWalkException
      */
     @Test
-    public void testEvaluateWithDefinitions() throws JWalkException {
+    public void testEvaluateWithDefinitions()
+        throws
+            JWalkException {
+
         LOGGER.debug("--------------------------------------------------------------------------------");
         LOGGER.debug(" testEvaluateWithDefinitions");
         LOGGER.debug("--------------------------------------------------------------------------------");
-
-        BigInteger  value       = BigInteger.valueOf(16);
-        String      expression  = "toString(radix).charAt(index)";
 
         Map<String, Class<?>> definitions = new HashMap<String, Class<?>>(4);
         definitions.put("radix", Integer.TYPE);
@@ -195,8 +196,12 @@ public class WalkerTest {
         Character result =
             (Character)
                 WalkFactory.getInstance()
-                    .createSequence(expression, definitions)
-                        .evaluate(value, values);
+                    .createSequence(
+                        "toString(radix).charAt(index)",
+                        definitions)
+                        .evaluate(
+                            BigInteger.valueOf(16),
+                            values);
 
         assertEquals(
             '1',
@@ -208,13 +213,13 @@ public class WalkerTest {
      * @throws JWalkException
      */
     @Test
-    public void testEvaluateWithoutDefinitions() throws JWalkException {
+    public void testEvaluateWithoutDefinitions()
+        throws
+            JWalkException {
+
         LOGGER.debug("--------------------------------------------------------------------------------");
         LOGGER.debug(" testEvaluateWithoutDefinitions");
         LOGGER.debug("--------------------------------------------------------------------------------");
-
-        String value        = "this is a string object";
-        String expression   = "toUpperCase().replaceAll(from, to).replaceAll(select, group).concat(rest)";
 
         Map<String, Object> values = new HashMap<String, Object>(4);
         values.put("from",      "IN");
@@ -226,8 +231,42 @@ public class WalkerTest {
         String result =
             (String)
                 WalkFactory.getInstance()
-                    .createSequence(expression)
-                        .evaluate(value, values);
+                    .createSequence("toUpperCase().replaceAll(from, to).replaceAll(select, group).concat(rest)")
+                        .evaluate(
+                            "this is a string object",
+                            values);
+
+        assertEquals(
+            "STRONG ARM OF THE LAW",
+            result);
+    }
+
+    /**
+     * Test of parse method, of class SequenceBuilder.
+     * @throws JWalkException
+     */
+    @Test(expected = MethodAccessingException.class)
+    public void testEvaluateWithMissingArgument()
+        throws
+            JWalkException {
+
+        LOGGER.debug("--------------------------------------------------------------------------------");
+        LOGGER.debug(" testEvaluateWithMissingArgument");
+        LOGGER.debug("--------------------------------------------------------------------------------");
+
+        Map<String, Object> values = new HashMap<String, Object>(4);
+        values.put("to",        "ON");
+        values.put("select",    ".*(STRONG).*");
+        values.put("group",     "$1");
+        values.put("rest",      " ARM OF THE LAW");
+
+        String result =
+            (String)
+                WalkFactory.getInstance()
+                    .createSequence("toUpperCase().replaceAll(from, to).replaceAll(select, group).concat(rest)")
+                        .evaluate(
+                            "this is a string object",
+                            values);
 
         assertEquals(
             "STRONG ARM OF THE LAW",
