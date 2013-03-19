@@ -1,5 +1,7 @@
 package org.simplecoding.jwalk;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.simplecoding.jwalk.components.SequenceBuilder;
 import org.simplecoding.jwalk.components.WalkField;
 import org.simplecoding.jwalk.components.WalkMethod;
@@ -40,10 +42,16 @@ public class WalkFactory {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
-    public WalkSequence createSequence(String expression, Class<?>... classes) {
+    public WalkSequence createSequence(String expression) {
         return
-            this.sequenceBuilder.parse(
-                expression, classes);
+            this.createSequence(
+                expression,
+                new HashMap<String, Class<?>>(4));
+    }
+
+    public WalkSequence createSequence(String expression, Map<String, Class<?>> definitions) {
+        return
+            this.sequenceBuilder.parse(expression, definitions);
     }
 
     public WalkField createField(String id) {

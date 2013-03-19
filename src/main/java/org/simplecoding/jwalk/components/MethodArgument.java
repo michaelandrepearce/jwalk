@@ -1,39 +1,33 @@
 package org.simplecoding.jwalk.components;
 
-import java.lang.reflect.Field;
-import java.util.Deque;
-import java.util.Map;
-import org.simplecoding.jwalk.exceptions.FieldAccessingException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  *
  * @author fred
  */
-public class WalkField
-    extends
-        WalkComponent {
+public class MethodArgument {
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Static Fields
      * -------------------------------------------------------------------------------------------------------------- */
-    private static final Logger LOGGER =
-        LoggerFactory.getLogger(WalkField.class);
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Private Fields
      * -------------------------------------------------------------------------------------------------------------- */
+    private String      name;
+    private Class<?>    definition;
+    private Object      object;
 
     /* -------------------------------------------------------------------------------------------------------------- *
      * Constructor
      * -------------------------------------------------------------------------------------------------------------- */
-    public WalkField() {
-        this(null);
+    public MethodArgument() {
+        this(null, null);
     }
 
-    public WalkField(String id) {
-        super(id);
+    public MethodArgument(String name, Class<?> definition) {
+        this.name       = name;
+        this.definition = definition;
+        this.object     = null;
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *
@@ -44,20 +38,15 @@ public class WalkField
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
     @Override
-    public Object evaluate(Object instance, Map<String, Object> arguments)
-        throws
-            FieldAccessingException {
-
-        try {
-            Field field = instance.getClass().getDeclaredField(this.getId());
-            field.setAccessible(true);
-
-            return
-                field.get(instance);
-        }
-        catch (Exception e) {
-            throw new FieldAccessingException(e);
-        }
+    public String toString() {
+        return
+            new StringBuilder(this.name)
+                .append("(")
+                .append(this.definition)
+                .append(")")
+                .append(" = ")
+                .append(this.object)
+                .toString();
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *
@@ -67,5 +56,35 @@ public class WalkField
     /* -------------------------------------------------------------------------------------------------------------- *
      * Getters & Setters
      * -------------------------------------------------------------------------------------------------------------- */
+    public String getName() {
+        return name;
+    }
+
+    public MethodArgument setName(String name) {
+        this.name = name;
+
+        return this;
+    }
+
+    public Class<?> getDefinition() {
+        return definition;
+    }
+
+    public MethodArgument setDefinition(Class<?> definition) {
+        this.definition = definition;
+
+        return this;
+    }
+
+    public Object getObject() {
+        return object;
+    }
+
+    public MethodArgument setObject(Object object) {
+        this.object = object;
+
+        return this;
+    }
+
 
 }

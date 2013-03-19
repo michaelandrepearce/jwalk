@@ -1,7 +1,9 @@
 package org.simplecoding.jwalk.components;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import org.simplecoding.jwalk.components.WalkMethod;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -101,14 +103,18 @@ public class WalkMethodTest {
         LOGGER.debug(" testEvaluateWithArguments");
         LOGGER.debug("--------------------------------------------------------------------------------");
 
+        Map<String, Object> parameters = new HashMap<String, Object>(1);
+        parameters.put("index", 4);
+
         assertEquals(
             'a',
             new WalkMethod("charAt")
-                .add(Integer.TYPE)
+                .add(
+                    new MethodArgument()
+                        .setName("index")
+                        .setDefinition(Integer.TYPE))
                 .evaluate(
                     this.message,
-                    new LinkedList<Object>(
-                        Arrays.asList(
-                            new Object[] { 4 }))));
+                    parameters));
     }
 }

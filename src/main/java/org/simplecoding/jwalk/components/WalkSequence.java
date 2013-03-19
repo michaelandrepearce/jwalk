@@ -3,6 +3,7 @@ package org.simplecoding.jwalk.components;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import org.simplecoding.jwalk.exceptions.JWalkException;
 
 /**
@@ -38,13 +39,13 @@ public class WalkSequence
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
     @Override
-    public Object evaluate(Object instance, Deque<Object> args)
+    public Object evaluate(Object instance, Map<String, Object> map)
         throws
             JWalkException {
 
         Object result = instance;
         for(WalkComponent component: this.components) {
-            result = component.evaluate(result, args);
+            result = component.evaluate(result, map);
         }
 
         return result;

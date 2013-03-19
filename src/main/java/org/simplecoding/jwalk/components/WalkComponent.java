@@ -1,7 +1,9 @@
 package org.simplecoding.jwalk.components;
 
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import org.simplecoding.jwalk.exceptions.JWalkException;
 
 /**
@@ -44,10 +46,10 @@ public abstract class WalkComponent {
         return
             this.evaluate(
                 instance,
-                new LinkedList<Object>());
+                new HashMap<String, Object>(4));
     }
 
-    public abstract Object evaluate(Object instance, Deque<Object> arguments)
+    public abstract Object evaluate(Object instance, Map<String, Object> arguments)
         throws
             JWalkException;
 

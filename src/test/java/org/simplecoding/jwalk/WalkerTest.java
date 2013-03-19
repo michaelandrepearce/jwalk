@@ -1,6 +1,8 @@
 package org.simplecoding.jwalk;
 
-import org.simplecoding.jwalk.components.SequenceBuilder;
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -8,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.simplecoding.jwalk.components.WalkSequence;
+import org.simplecoding.jwalk.exceptions.JWalkException;
 import org.simplecoding.jwalk.structures.ComplexStructure;
 import org.simplecoding.jwalk.structures.SimpleStructure;
 import org.slf4j.Logger;
@@ -112,7 +115,7 @@ public class WalkerTest {
             Walker.getInstance().evaluate(
                 this.bean,
                 "getSimple().number",
-                String.class));
+                Integer.class));
     }
 
     /**
@@ -147,11 +150,17 @@ public class WalkerTest {
         LOGGER.debug(" testEvaluateWithArguments");
         LOGGER.debug("--------------------------------------------------------------------------------");
 
+        Map<String, Class<?>> definitions = new HashMap<String, Class<?>>(4);
+        definitions.put("index", Integer.TYPE);
+
+        Map<String, Object> values = new HashMap<String, Object>(4);
+        values.put("index", 4);
+
         WalkSequence sequence =
             WalkFactory.getInstance()
                 .createSequence(
-                    "charAt(%)",
-                    Integer.TYPE);
+                    "charAt(index)",
+                    definitions);
 
         assertEquals(
             'a',
@@ -159,6 +168,70 @@ public class WalkerTest {
                 .evaluate(
                     this.message,
                     sequence,
-                    4));
+                    values));
     }
+
+    /**
+     * Test of parse method, of class SequenceBuilder.
+     * @throws JWalkException
+     */
+    @Test
+    public void testEvaluateWithDefinitions() throws JWalkException {
+        LOGGER.debug("--------------------------------------------------------------------------------");
+        LOGGER.debug(" testEvaluateWithDefinitions");
+        LOGGER.debug("--------------------------------------------------------------------------------");
+
+        BigInteger  value       = BigInteger.valueOf(16);
+        String      expression  = "toString(radix).charAt(index)";
+
+        Map<String, Class<?>> definitions = new HashMap<String, Class<?>>(4);
+        definitions.put("radix", Integer.TYPE);
+        definitions.put("index", Integer.TYPE);
+
+        Map<String, Object> values = new HashMap<String, Object>(4);
+        values.put("radix", 16);
+        values.put("index", 0);
+
+        Character result =
+            (Character)
+                WalkFactory.getInstance()
+                    .createSequence(expression, definitions)
+                        .evaluate(value, values);
+
+        assertEquals(
+            '1',
+            (char) result);
+    }
+
+    /**
+     * Test of parse method, of class SequenceBuilder.
+     * @throws JWalkException
+     */
+    @Test
+    public void testEvaluateWithoutDefinitions() throws JWalkException {
+        LOGGER.debug("--------------------------------------------------------------------------------");
+        LOGGER.debug(" testEvaluateWithoutDefinitions");
+        LOGGER.debug("--------------------------------------------------------------------------------");
+
+        String value        = "this is a string object";
+        String expression   = "toUpperCase().replaceAll(from, to).replaceAll(select, group).concat(rest)";
+
+        Map<String, Object> values = new HashMap<String, Object>(4);
+        values.put("from",      "IN");
+        values.put("to",        "ON");
+        values.put("select",    ".*(STRONG).*");
+        values.put("group",     "$1");
+        values.put("rest",      " ARM OF THE LAW");
+
+        String result =
+            (String)
+                WalkFactory.getInstance()
+                    .createSequence(expression)
+                        .evaluate(value, values);
+
+        assertEquals(
+            "STRONG ARM OF THE LAW",
+            result);
+    }
+
 }

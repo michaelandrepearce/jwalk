@@ -3,6 +3,7 @@ package org.simplecoding.jwalk.components;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
@@ -31,8 +32,15 @@ public class SequenceBuilder {
      * Constructor
      * -------------------------------------------------------------------------------------------------------------- */
     public SequenceBuilder() {
+        //--------------------------------------------------------------------------------------------------------------
+        // methodName()
+        // methodName().
+        // methodName(arg1,arg2)
+        // methodName(arg1, arg2)
+        // methodName(arg1, arg2).
+        //--------------------------------------------------------------------------------------------------------------
         this.idPattern          = Pattern.compile("(\\w+)(\\(([^)]*)\\))?\\.?");
-        this.argumentPattern    = Pattern.compile("(%)\\s*,?\\s*");
+        this.argumentPattern    = Pattern.compile("([^\\s,]+)\\s*,?\\s*");
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *
@@ -42,8 +50,7 @@ public class SequenceBuilder {
     /* -------------------------------------------------------------------------------------------------------------- *
      * Public methods
      * -------------------------------------------------------------------------------------------------------------- */
-    public WalkSequence parse(String expression, Class<?>... classes) {
-        Deque<Class<?>> arguments = new LinkedList<Class<?>>(Arrays.asList(classes));
+    public WalkSequence parse(String expression, Map<String, Class<?>> definitions) {
 
         LOGGER.debug(
             new StringBuilder("parse expression : '")
@@ -53,6 +60,9 @@ public class SequenceBuilder {
 
         WalkSequence sequence = new WalkSequence();
 
+        //--------------------------------------------------------------------------------------------------------------
+        // Search for component (Field or Method)
+        //--------------------------------------------------------------------------------------------------------------
         Matcher idMatcher = this.idPattern.matcher(expression);
         while(idMatcher.find()) {
             String id           = idMatcher.group(1);
@@ -74,8 +84,7 @@ public class SequenceBuilder {
             // Method
             //----------------------------------------------------------------------------------------------------------
             else {
-                String  argumentsLine   = idMatcher.group(3);
-                Matcher argumentMatcher = this.argumentPattern.matcher(argumentsLine);
+                String argumentsLine = idMatcher.group(3);
 
                 LOGGER.debug(
                     new StringBuilder("add method : ")
@@ -86,12 +95,25 @@ public class SequenceBuilder {
 
                 WalkMethod method = new WalkMethod(id);
 
+                Matcher argumentMatcher = this.argumentPattern.matcher(argumentsLine);
                 while(argumentMatcher.find()) {
+                    String      argId           = argumentMatcher.group(1);
+                    Class<?>    argDefinition   = definitions.get(argId);
+
                     LOGGER.debug(
-                        new StringBuilder("add method argument")
+                        new StringBuilder("add method argument : ")
+                            .append("'")
+                                .append(argId)
+                                .append("(")
+                                    .append(argDefinition)
+                                .append(")")
+                            .append("'")
                             .toString());
 
-                    method.add(arguments.pop());
+                    method.add(
+                        new MethodArgument()
+                            .setName(argId)
+                            .setDefinition(argDefinition));
                 }
 
                 sequence.add(method);

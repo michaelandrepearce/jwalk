@@ -1,7 +1,9 @@
 package org.simplecoding.jwalk;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import org.simplecoding.jwalk.components.WalkSequence;
 import org.simplecoding.jwalk.exceptions.JWalkException;
 
@@ -47,7 +49,8 @@ public class Walker {
                 this.evaluate(
                     instance,
                     WalkFactory.getInstance()
-                        .createSequence(expression));
+                        .createSequence(expression),
+                    new HashMap<String, Object>(4));
         }
         catch(JWalkException e) {
             throw e;
@@ -65,23 +68,22 @@ public class Walker {
         return (T) this.evaluate(instance, expression);
     }
 
-    public Object evaluate(Object instance, WalkSequence sequence, Object... arguments)
+    public Object evaluate(Object instance, WalkSequence sequence, Map<String, Object> map)
         throws
             JWalkException {
 
         return
             sequence.evaluate(
                 instance,
-                new LinkedList<Object>(
-                    Arrays.asList(arguments)));
+                map);
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T evaluate(Object instance, WalkSequence sequence, Class<T> cast, Object... arguments)
+    public <T> T evaluate(Object instance, WalkSequence sequence, Class<T> cast, Map<String, Object> map)
         throws
             JWalkException {
 
-        return (T) this.evaluate(instance, sequence, arguments);
+        return (T) this.evaluate(instance, sequence, map);
     }
 
     /* -------------------------------------------------------------------------------------------------------------- *
