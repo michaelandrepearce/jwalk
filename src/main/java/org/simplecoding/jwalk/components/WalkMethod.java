@@ -72,7 +72,6 @@ public class WalkMethod
 
             method.setAccessible(true);
 
-
             return
                 method
                     .invoke(
